@@ -1,10 +1,15 @@
-import './App.css'
-
+import Header from './components/Header/Header'
+import Aside from './components/Aside/Aside'
+import CalendarView from './components/Calendar/CalendarView' 
 function App() {
   return (
-    <div>
-      <h1>Calendar</h1>
-    </div>
+   <>
+    <Header/>
+    <main>
+      <Aside/>
+      <CalendarView/>
+    </main>
+    </>
   )
 }
 
