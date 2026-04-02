@@ -1,7 +1,13 @@
 import Header from "./components/Header/Header";
 import Aside from "./components/Aside/Aside";
 import CalendarView from "./components/Calendar/CalendarView";
-import { MainContainer, CalendarSectionContainer, H2Container} from "./App.styled";
+import {
+  MainContainer,
+  CalendarSectionContainer,
+  CalendarCard,
+  PageTitle,
+} from "./App.styled";
+
 function App() {
   return (
     <>
@@ -9,8 +15,10 @@ function App() {
       <MainContainer>
         <Aside />
         <CalendarSectionContainer>
-          <H2Container>Calendar</H2Container>
-          <CalendarView />
+          <PageTitle>Calendar</PageTitle>
+          <CalendarCard>
+            <CalendarView />
+          </CalendarCard>
         </CalendarSectionContainer>
       </MainContainer>
     </>

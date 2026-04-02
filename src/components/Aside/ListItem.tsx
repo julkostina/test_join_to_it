@@ -1,6 +1,11 @@
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { ElementType } from "react";
-import { ListItemContainer } from "./Aside.styled";
+import type { ElementType } from "react";
+import {
+  ListItemContainer,
+  StyledListItemButton,
+  NavIconSlot,
+  StyledNavIcon,
+  NavItemLabel,
+} from "./Aside.styled";
 
 interface NavItemProps {
   label: string;
@@ -10,12 +15,14 @@ interface NavItemProps {
 export default function ListItem({ label, icon: Icon }: NavItemProps) {
   return (
     <ListItemContainer>
-      <ListItemButton>
-        <ListItemIcon>
-          <Icon sx={{ color: "#A5A4BF" }} />
-        </ListItemIcon>
-        <ListItemText primary={label} />
-      </ListItemButton>
+      <StyledListItemButton>
+        <NavIconSlot>
+          <StyledNavIcon>
+            <Icon />
+          </StyledNavIcon>
+        </NavIconSlot>
+        <NavItemLabel>{label}</NavItemLabel>
+      </StyledListItemButton>
     </ListItemContainer>
   );
 }

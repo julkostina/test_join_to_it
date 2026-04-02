@@ -6,19 +6,24 @@ import {
   SearchIconWrapper,
   StyledInputBase,
   RightSection,
+  HeaderIconButton,
+  NotificationButtonWrap,
   UserInfo,
+  UserName,
+  StyledUserAvatar,
+  ChevronWrap,
 } from "./Header.styled";
 import SearchIcon from "@mui/icons-material/Search";
 import LanguageIcon from "@mui/icons-material/Language";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import { Avatar, IconButton } from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 function Header() {
   return (
     <HeaderContainer>
       <LogoBackgroundContainer>
-        <LogoContainer>Impekable</LogoContainer>
+        <LogoContainer>IMPEKABLE</LogoContainer>
       </LogoBackgroundContainer>
       <Search>
         <SearchIconWrapper>
@@ -30,12 +35,23 @@ function Header() {
         />
       </Search>
       <RightSection>
-        <IconButton><LanguageIcon /></IconButton>
-        <IconButton><ChatBubbleOutlineIcon /></IconButton>
-        <IconButton><NotificationsNoneIcon /></IconButton>
+        <HeaderIconButton aria-label="Language">
+          <LanguageIcon />
+        </HeaderIconButton>
+        <HeaderIconButton aria-label="Chat">
+          <ChatBubbleOutlineIcon />
+        </HeaderIconButton>
+        <NotificationButtonWrap>
+          <HeaderIconButton aria-label="Notifications">
+            <NotificationsNoneIcon />
+          </HeaderIconButton>
+        </NotificationButtonWrap>
         <UserInfo>
-          <span>John Doe</span>
-          <Avatar src="/avatar.jpg" sx={{ width: 32, height: 32 }} />
+          <UserName>John Doe</UserName>
+          <ChevronWrap>
+            <KeyboardArrowDownIcon />
+          </ChevronWrap>
+          <StyledUserAvatar src="/avatar.jpg" alt="" />
         </UserInfo>
       </RightSection>
     </HeaderContainer>
