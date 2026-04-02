@@ -28,11 +28,10 @@ export function useEvents() {
         }
     }
     const updateInCalendar = (event: Event) => {
-        if(events.find(m => m.id === event.id)){
-            const oldEvents = events.filter(m => JSON.stringify(m) === JSON.stringify(event));
-            save([...oldEvents, event]);
+        if (events.some((m) => m.id === event.id)) {
+            save(events.map((m) => (m.id === event.id ? event : m)));
         }
-    }
+    };
 
     return {events, addToCalendar, removeFromCalendar, updateInCalendar};
 }
