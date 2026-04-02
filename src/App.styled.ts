@@ -4,7 +4,7 @@ import { colors } from "./theme/colors";
 export const MainContainer = styled("main")(() => ({
   display: "flex",
   flex: 1,
-  minHeight: "calc(100vh - 70px)",
+  minHeight: 0,
   backgroundColor: "#F0F0F7",
 }));
 
@@ -12,6 +12,7 @@ export const CalendarSectionContainer = styled("section")(() => ({
   display: "flex",
   flexDirection: "column",
   flex: 1,
+  minHeight: 0,
   padding: "24px 32px 32px",
   minWidth: 0,
 }));

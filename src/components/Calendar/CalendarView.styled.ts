@@ -6,10 +6,24 @@ export const CalendarViewWrapper = styled("div")(() => ({
   display: "flex",
   flexDirection: "column",
   minHeight: 0,
+  minWidth: 0,
+  width: "100%",
+  maxWidth: "100%",
+  overflow: "hidden",
   color: colors.slate,
   "& .fc": {
     flex: 1,
-    minHeight: 520,
+    minHeight: 0,
+    display: "flex",
+    flexDirection: "column",
+  },
+  "& .fc-view-harness": {
+    flex: 1,
+    minHeight: 0,
+  },
+  "& .fc-scroller-harness-liquid": {
+    flex: 1,
+    minHeight: 0,
   },
   "& .fc .fc-button": {
     backgroundColor: "transparent",
@@ -25,18 +39,17 @@ export const CalendarViewWrapper = styled("div")(() => ({
     boxShadow: "none",
   },
   ".fc.fc-media-screen.fc-direction-ltr.fc-theme-standard": {
-    width: "100%",
-    maxWidth: 1130,
-    maxHeight: 800,
+    width: "100% !important",
+    maxWidth: "100%",
+    flex: 1,
+    minHeight: 0,
+  },
+  "& .fc-scrollgrid, & .fc-scrollgrid-sync-table": {
+    width: "100% !important",
   },
   ".fc-scroller.fc-scroller-liquid-absolute": {
-    overflowY: "hidden !important",
+    overflowY: "auto !important",
   },
-  ".fc-daygrid-day-frame.fc-scrollgrid-sync-inner": {
-    height: "135px",
-  },
-  margin: "0 auto",
-  width: "100%",
   "& th .fc-scrollgrid-sync-inner": {
     backgroundColor: "#F5F6FA",
     color: colors.textMuted,
@@ -69,5 +82,6 @@ export const CalendarViewWrapper = styled("div")(() => ({
     fontSize: "18px",
     color: colors.slate,
     marginBottom: "16px",
+    flexShrink: 0,
   },
 }));

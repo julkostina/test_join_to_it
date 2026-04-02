@@ -139,6 +139,7 @@ function CalendarView() {
     <CalendarViewWrapper>
       <h2>Calendar View</h2>
       <FullCalendar
+        height="100%"
         headerToolbar={{
           start: "today,prev,next",
           center: "title",
