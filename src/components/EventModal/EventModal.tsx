@@ -4,6 +4,8 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import InputAdornment from "@mui/material/InputAdornment";
 import type { Event } from "../../types/events";
+import { colors } from "../../theme/colors";
+import ColorPicker from "../ColorPicker/ColorPicker";
 import {
   EventPopover,
   EventPopoverSurface,
@@ -34,6 +36,7 @@ function buildEventFromForm(
   date: string,
   time: string,
   notes: string,
+  color: string,
 ): Event {
   const oldStart = new Date(draft.start).getTime();
   const oldEnd = new Date(draft.end).getTime();
@@ -46,6 +49,7 @@ function buildEventFromForm(
     start: new Date(newStartMs).toISOString(),
     end: new Date(newEndMs).toISOString(),
     notes,
+    color,
   };
 }
 
@@ -72,6 +76,7 @@ export default function EventModal({
   const [date, setDate] = useState("");
   const [time, setTime] = useState("09:00");
   const [notes, setNotes] = useState("");
+  const [color, setColor] = useState<string>(colors.accentBlue);
 
   useEffect(() => {
     if (open && draft) {
@@ -80,12 +85,13 @@ export default function EventModal({
       setDate(d);
       setTime(t);
       setNotes(draft.notes ?? "");
+      setColor(draft.color ?? colors.accentBlue);
     }
   }, [open, draft]);
 
   const handleSave = () => {
     if (!draft || !date || !time) return;
-    onSave(buildEventFromForm(draft, title, date, time, notes));
+    onSave(buildEventFromForm(draft, title, date, time, notes, color));
     onClose();
   };
 
@@ -156,6 +162,11 @@ export default function EventModal({
                 </InputAdornment>
               ),
             }}
+          />
+          <ColorPicker
+            value={color}
+            onChange={setColor}
+            label="Color"
           />
           <EventFormTextField
             variant="standard"

@@ -6,8 +6,6 @@ import {
   ColorPickerHex,
 } from "./ColorPicker.styled";
 
-export const DEFAULT_EVENT_COLOR = "#3788d8";
-
 type ColorPickerProps = {
   value: string;
   onChange: (color: string) => void;

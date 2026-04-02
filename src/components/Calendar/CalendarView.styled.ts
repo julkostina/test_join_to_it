@@ -54,8 +54,6 @@ export const CalendarViewWrapper = styled("div")(() => ({
     backgroundColor: "rgba(59, 134, 255, 0.04)",
   },
   "& .fc-h-event, & .fc-v-event": {
-    backgroundColor: colors.accentBlue,
-    borderColor: colors.accentBlue,
     borderRadius: 4,
     borderWidth: 0,
     padding: "2px 6px",
