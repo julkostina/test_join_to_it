@@ -5,12 +5,7 @@ import {
   ColorPickerInput,
   ColorPickerHex,
 } from "./ColorPicker.styled";
-
-type ColorPickerProps = {
-  value: string;
-  onChange: (color: string) => void;
-  label?: string;
-};
+import type { ColorPickerProps } from "../../types/events";
 
 export default function ColorPicker({
   value,

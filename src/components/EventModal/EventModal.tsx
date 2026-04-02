@@ -16,7 +16,7 @@ import {
   EventCancelTextButton,
   EventSaveTextButton,
 } from "./EventModal.styled";
-
+import type { EventModalProps } from "../../types/events";
 function parseDateAndTime(iso: string): { date: string; time: string } {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) {
@@ -65,13 +65,7 @@ function buildEventFromForm(
   };
 }
 
-type EventModalProps = {
-  open: boolean;
-  anchorEl: HTMLElement | null;
-  draft: Event | null;
-  onClose: () => void;
-  onSave: (event: Event) => void;
-};
+
 
 export default function EventModal({
   open,

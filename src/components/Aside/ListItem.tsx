@@ -1,4 +1,3 @@
-import type { ElementType } from "react";
 import {
   ListItemContainer,
   StyledListItemButton,
@@ -6,11 +5,8 @@ import {
   StyledNavIcon,
   NavItemLabel,
 } from "./Aside.styled";
+import type { NavItemProps } from "../../types/events";
 
-interface NavItemProps {
-  label: string;
-  icon: ElementType;
-}
 
 export default function ListItem({ label, icon: Icon }: NavItemProps) {
   return (
