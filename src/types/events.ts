@@ -1,6 +1,8 @@
-export interface Event{
+export interface Event {
     id: string;
     title: string;
     start: string;
     end: string;
+    color?: string;
+    notes?: string;
 }
