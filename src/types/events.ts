@@ -4,7 +4,7 @@ export interface Event {
     title: string;
     start: string;
     end: string;
-    color?: string;
+    color: string;
     notes?: string;
 }
 export interface NavItemProps {
