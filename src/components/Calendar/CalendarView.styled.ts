@@ -72,6 +72,15 @@ export const CalendarViewWrapper = styled("div")(() => ({
     padding: "2px 6px",
     margin: "2px 4px",
   },
+  "& .fc-daygrid .fc-daygrid-block-event.fc-h-event": {
+    display: "block",
+    width: "calc(100% - 8px)",
+    marginLeft: 4,
+    marginRight: 4,
+    marginTop: 2,
+    marginBottom: 2,
+    padding: "4px 8px",
+  },
   "& .fc-event-main, & .fc-event-title": {
     color: colors.surface,
     fontSize: "12px",

@@ -39,12 +39,10 @@ function resolveSelectAnchor(info: DateSelectArg): HTMLElement | null {
 }
 
 function CalendarView() {
-  const { events, addToCalendar, removeFromCalendar, updateInCalendar } =
-    useEvents();
+  const { events, addToCalendar, updateInCalendar } = useEvents();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [draft, setDraft] = useState<Event | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
 
   const closePopover = useCallback(() => {
     setPopoverOpen(false);
@@ -67,7 +65,6 @@ function CalendarView() {
       notes: "",
     });
     setAnchorEl(anchor);
-    setIsEditing(false);
     setPopoverOpen(true);
     info.view.calendar.unselect();
   }, []);
@@ -80,7 +77,6 @@ function CalendarView() {
       if (existing) {
         setDraft({ ...existing });
         setAnchorEl(info.el);
-        setIsEditing(true);
         setPopoverOpen(true);
       }
     },
@@ -128,13 +124,6 @@ function CalendarView() {
     [events, addToCalendar, updateInCalendar],
   );
 
-  const handleDelete = useCallback(
-    (event: Event) => {
-      removeFromCalendar(event);
-    },
-    [removeFromCalendar],
-  );
-
   return (
     <CalendarViewWrapper>
       <h2>Calendar View</h2>
@@ -157,6 +146,7 @@ function CalendarView() {
         initialView="dayGridMonth"
         initialDate="2018-01-01"
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+        eventDisplay="block"
         editable
         selectable
         selectMirror
@@ -201,10 +191,8 @@ function CalendarView() {
         open={popoverOpen}
         anchorEl={anchorEl}
         draft={draft}
-        isEditing={isEditing}
         onClose={closePopover}
         onSave={handleSave}
-        onDelete={isEditing ? handleDelete : undefined}
       />
     </CalendarViewWrapper>
   );

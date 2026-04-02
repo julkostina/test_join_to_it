@@ -6,9 +6,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
+const modalBorder = colors.slate;
+
 export const EventPopover = styled(Popover)(() => ({
   "& .MuiPopover-paper": {
-    marginTop: 10,
+    marginTop: 12,
     backgroundColor: "transparent",
     boxShadow: "none",
     overflow: "visible",
@@ -19,35 +21,58 @@ export const EventPopover = styled(Popover)(() => ({
 export const EventPopoverSurface = styled("div")(() => ({
   position: "relative",
   backgroundColor: colors.surface,
-  borderRadius: 8,
-  boxShadow: "0px 4px 24px rgba(67, 66, 93, 0.15)",
-  padding: "24px 20px 16px",
-  minWidth: 320,
-  maxWidth: 360,
+  borderRadius: 10,
+  border: `1px solid ${modalBorder}`,
+  boxShadow: "0 8px 32px rgba(67, 66, 93, 0.12)",
+  padding: "28px 24px 22px",
+  minWidth: 300,
+  maxWidth: 340,
   "&::before": {
+    content: '""',
+    position: "absolute",
+    top: -10,
+    left: "50%",
+    marginLeft: -10,
+    width: 0,
+    height: 0,
+    borderLeft: "10px solid transparent",
+    borderRight: "10px solid transparent",
+    borderBottom: `10px solid ${modalBorder}`,
+    zIndex: 0,
+  },
+  "&::after": {
     content: '""',
     position: "absolute",
     top: -8,
     left: "50%",
-    marginLeft: -8,
+    marginLeft: -9,
     width: 0,
     height: 0,
-    borderLeft: "8px solid transparent",
-    borderRight: "8px solid transparent",
-    borderBottom: `8px solid ${colors.surface}`,
+    borderLeft: "9px solid transparent",
+    borderRight: "9px solid transparent",
+    borderBottom: `9px solid ${colors.surface}`,
+    zIndex: 1,
   },
 }));
 
 export const EventPopoverClose = styled(IconButton)(() => ({
   position: "absolute",
-  top: 4,
-  right: 4,
+  top: 8,
+  right: 8,
+  zIndex: 2,
   color: colors.textMuted,
+  backgroundColor: "rgba(245, 246, 250, 0.9)",
+  padding: 6,
+  borderRadius: "50%",
+  "&:hover": {
+    backgroundColor: "#EBEDF5",
+  },
 }));
 
 export const EventFormFields = styled(Stack)(() => ({
-  marginTop: 4,
-  paddingRight: 8,
+  marginTop: 8,
+  paddingRight: 4,
+  paddingLeft: 2,
 }));
 
 export const EventFormTextField = styled(TextField)(() => ({
@@ -60,17 +85,24 @@ export const EventFormTextField = styled(TextField)(() => ({
   "& .MuiInputBase-input": {
     fontSize: "14px",
     color: colors.slate,
+    paddingTop: 4,
+    paddingBottom: 6,
   },
   "& .MuiInputBase-input::placeholder": {
     color: colors.textMuted,
     opacity: 1,
   },
+  "& .MuiInputBase-input[type='date']::-webkit-calendar-picker-indicator, & .MuiInputBase-input[type='time']::-webkit-calendar-picker-indicator":
+    {
+      display: "none",
+    },
 }));
 
 export const AdornmentIconWrap = styled("span")(() => ({
   display: "flex",
   alignItems: "center",
   color: colors.textMuted,
+  cursor: "pointer",
   "& svg": {
     fontSize: 20,
   },
@@ -80,24 +112,20 @@ export const EventPopoverFooter = styled("div")(() => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  marginTop: 24,
-}));
-
-export const EventFooterActions = styled("span")(() => ({
-  display: "flex",
-  gap: 16,
-  alignItems: "center",
+  marginTop: 28,
+  paddingTop: 4,
 }));
 
 export const EventCancelTextButton = styled(Button)(() => ({
   textTransform: "none",
   fontSize: "14px",
-  color: "#E02020",
+  fontWeight: 500,
+  color: "#E76F71",
   minWidth: "auto",
   padding: 0,
   "&:hover": {
     backgroundColor: "transparent",
-    color: "#C01818",
+    color: "#D55A5C",
   },
 }));
 
@@ -105,11 +133,11 @@ export const EventSaveTextButton = styled(Button)(() => ({
   textTransform: "none",
   fontSize: "14px",
   fontWeight: 600,
-  color: colors.slate,
+  color: colors.accentBlue,
   minWidth: "auto",
   padding: 0,
   "&:hover": {
     backgroundColor: "transparent",
-    color: colors.accentBlue,
+    color: "#2A6FD9",
   },
 }));

@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import InputAdornment from "@mui/material/InputAdornment";
 import type { Event } from "../../types/events";
 import { colors } from "../../theme/colors";
-import ColorPicker from "../ColorPicker/ColorPicker";
 import {
   EventPopover,
   EventPopoverSurface,
@@ -16,7 +15,6 @@ import {
   EventPopoverFooter,
   EventCancelTextButton,
   EventSaveTextButton,
-  EventFooterActions,
 } from "./EventModal.styled";
 
 function parseDateAndTime(iso: string): { date: string; time: string } {
@@ -30,17 +28,31 @@ function parseDateAndTime(iso: string): { date: string; time: string } {
   return { date, time };
 }
 
+function openNativePicker(input: HTMLInputElement | null) {
+  if (!input) return;
+  try {
+    input.showPicker?.();
+  } catch {
+    input.focus();
+  }
+}
+
+const ONE_HOUR_MS = 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
 function buildEventFromForm(
   draft: Event,
   title: string,
   date: string,
   time: string,
   notes: string,
-  color: string,
 ): Event {
   const oldStart = new Date(draft.start).getTime();
   const oldEnd = new Date(draft.end).getTime();
-  const durationMs = Math.max(oldEnd - oldStart, 60 * 60 * 1000);
+  let durationMs = Math.max(oldEnd - oldStart, ONE_HOUR_MS);
+  if (durationMs >= DAY_MS) {
+    durationMs = ONE_HOUR_MS;
+  }
   const newStartMs = new Date(`${date}T${time}:00`).getTime();
   const newEndMs = newStartMs + durationMs;
   return {
@@ -49,7 +61,7 @@ function buildEventFromForm(
     start: new Date(newStartMs).toISOString(),
     end: new Date(newEndMs).toISOString(),
     notes,
-    color,
+    color: draft.color ?? colors.accentBlue,
   };
 }
 
@@ -57,26 +69,23 @@ type EventModalProps = {
   open: boolean;
   anchorEl: HTMLElement | null;
   draft: Event | null;
-  isEditing: boolean;
   onClose: () => void;
   onSave: (event: Event) => void;
-  onDelete?: (event: Event) => void;
 };
 
 export default function EventModal({
   open,
   anchorEl,
   draft,
-  isEditing,
   onClose,
   onSave,
-  onDelete,
 }: EventModalProps) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("09:00");
   const [notes, setNotes] = useState("");
-  const [color, setColor] = useState<string>(colors.accentBlue);
+  const dateInputRef = useRef<HTMLInputElement>(null);
+  const timeInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open && draft) {
@@ -85,19 +94,12 @@ export default function EventModal({
       setDate(d);
       setTime(t);
       setNotes(draft.notes ?? "");
-      setColor(draft.color ?? colors.accentBlue);
     }
   }, [open, draft]);
 
   const handleSave = () => {
     if (!draft || !date || !time) return;
-    onSave(buildEventFromForm(draft, title, date, time, notes, color));
-    onClose();
-  };
-
-  const handleDelete = () => {
-    if (!draft || !onDelete) return;
-    onDelete(draft);
+    onSave(buildEventFromForm(draft, title, date, time, notes));
     onClose();
   };
 
@@ -120,7 +122,7 @@ export default function EventModal({
         >
           <CloseIcon fontSize="small" />
         </EventPopoverClose>
-        <EventFormFields spacing={2.5}>
+        <EventFormFields spacing={3}>
           <EventFormTextField
             variant="standard"
             fullWidth
@@ -136,10 +138,22 @@ export default function EventModal({
             placeholder="event date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            inputRef={dateInputRef}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <AdornmentIconWrap>
+                  <AdornmentIconWrap
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Open date picker"
+                    onClick={() => openNativePicker(dateInputRef.current)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openNativePicker(dateInputRef.current);
+                      }
+                    }}
+                  >
                     <CalendarTodayIcon />
                   </AdornmentIconWrap>
                 </InputAdornment>
@@ -153,26 +167,31 @@ export default function EventModal({
             placeholder="event time"
             value={time}
             onChange={(e) => setTime(e.target.value)}
+            inputRef={timeInputRef}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <AdornmentIconWrap>
+                  <AdornmentIconWrap
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Open time picker"
+                    onClick={() => openNativePicker(timeInputRef.current)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openNativePicker(timeInputRef.current);
+                      }
+                    }}
+                  >
                     <ScheduleIcon />
                   </AdornmentIconWrap>
                 </InputAdornment>
               ),
             }}
           />
-          <ColorPicker
-            value={color}
-            onChange={setColor}
-            label="Color"
-          />
           <EventFormTextField
             variant="standard"
             fullWidth
-            multiline
-            minRows={2}
             placeholder="notes"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
@@ -180,16 +199,9 @@ export default function EventModal({
         </EventFormFields>
         <EventPopoverFooter>
           <EventCancelTextButton onClick={onClose}>Cancel</EventCancelTextButton>
-          <EventFooterActions>
-            {isEditing && onDelete && (
-              <EventCancelTextButton onClick={handleDelete}>
-                Delete
-              </EventCancelTextButton>
-            )}
-            <EventSaveTextButton onClick={handleSave} disabled={!draft}>
-              Save
-            </EventSaveTextButton>
-          </EventFooterActions>
+          <EventSaveTextButton onClick={handleSave} disabled={!draft}>
+            Save
+          </EventSaveTextButton>
         </EventPopoverFooter>
       </EventPopoverSurface>
     </EventPopover>
