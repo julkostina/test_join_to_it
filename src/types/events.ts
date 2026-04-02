@@ -22,4 +22,5 @@ export interface NavItemProps {
     draft: Event | null;
     onClose: () => void;
     onSave: (event: Event) => void;
+    onRemove?: (event: Event) => void;
   };

@@ -16,8 +16,10 @@ import {
   EventPopoverFooter,
   EventCancelTextButton,
   EventSaveTextButton,
+  EventRemoveTextButton,
 } from "./EventModal.styled";
 import type { EventModalProps } from "../../types/events";
+
 function parseDateAndTime(iso: string): { date: string; time: string } {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) {
@@ -75,6 +77,7 @@ export default function EventModal({
   draft,
   onClose,
   onSave,
+  onRemove,
 }: EventModalProps) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -100,7 +103,11 @@ export default function EventModal({
     onSave(buildEventFromForm(draft, title, date, time, notes, color));
     onClose();
   };
-
+  const handleRemove = () => {
+    if (!draft || !onRemove) return;
+    onRemove(draft);
+    onClose();
+  };
   const showPopover = open && Boolean(anchorEl);
 
   return (
@@ -198,6 +205,9 @@ export default function EventModal({
         </EventFormFields>
         <EventPopoverFooter>
           <EventCancelTextButton onClick={onClose}>Cancel</EventCancelTextButton>
+          {onRemove ? (
+            <EventRemoveTextButton onClick={handleRemove}>Remove</EventRemoveTextButton>
+          ) : null}
           <EventSaveTextButton onClick={handleSave} disabled={!draft}>
             Save
           </EventSaveTextButton>

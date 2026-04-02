@@ -141,3 +141,15 @@ export const EventSaveTextButton = styled(Button)(() => ({
     color: "#2A6FD9",
   },
 }));
+export const EventRemoveTextButton = styled(Button)(() => ({
+  textTransform: "none",
+  fontSize: "14px",
+  fontWeight: 500,
+  color: "#E76F71",
+  minWidth: "auto",
+  padding: 0,
+  "&:hover": {
+    backgroundColor: "transparent",
+    color: "#D55A5C",
+  },
+}));

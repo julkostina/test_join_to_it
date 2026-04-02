@@ -39,7 +39,8 @@ function resolveSelectAnchor(info: DateSelectArg): HTMLElement | null {
 }
 
 function CalendarView() {
-  const { events, addToCalendar, updateInCalendar } = useEvents();
+  const { events, addToCalendar, updateInCalendar, removeFromCalendar } =
+    useEvents();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [draft, setDraft] = useState<Event | null>(null);
@@ -193,6 +194,11 @@ function CalendarView() {
         draft={draft}
         onClose={closePopover}
         onSave={handleSave}
+        onRemove={
+          draft && events.some((e) => e.id === draft.id)
+            ? removeFromCalendar
+            : undefined
+        }
       />
     </CalendarViewWrapper>
   );
