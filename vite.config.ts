@@ -7,4 +7,8 @@ export default defineConfig(({ mode }) => ({
   base:
     process.env.VITE_BASE ??
     (mode === "production" ? "./" : "/"),
+  build: {
+    outDir: "docs",
+    emptyOutDir: true,
+  },
 }));
